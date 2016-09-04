@@ -32,13 +32,7 @@ class AccessMiddleware
 
         return $next($request);
     }
-
-    /**
-     * Executes after HTTP processed
-     *
-     * @param Request $request
-     * @param Response $response
-     */
+    
     public function shutdown(Request $request, Response $response)
     {
     	
