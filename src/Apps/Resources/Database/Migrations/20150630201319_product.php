@@ -1,4 +1,5 @@
 <?php
+use Cygnite\Database\Migration;
 use Cygnite\Database\Table\Schema;
 
 /**
@@ -6,15 +7,14 @@ use Cygnite\Database\Table\Schema;
 * You may use up and down method to create migration
 */
 
-class Product
+class Product extends Migration
 {
     /**
      * Specify your database connection name here
      *
      * @var string
      */
-    //protected $database = 'cygnite';
-
+    protected $database = 'cygnite';
     /**
      * Run the migrations up.
      *
@@ -23,11 +23,9 @@ class Product
     public function up()
     {
         //Your schema to migrate
-        Schema::make('product', function ($table)
-        {
-            //$table->setTableName('product');
-            // if you don't specify the connect it will use default connection
-            //$table->on("cygnite");
+        Schema::make($this, function ($table) {
+            $table->tableName = 'product';
+
             $table->create(
                 [
                     ['column'=> 'id', 'type' => 'int', 'length' => 11,
@@ -41,8 +39,20 @@ class Product
                     ['column'=> 'updated_at', 'type' => 'datetime'],
 
                 ], 'InnoDB', 'latin1'
-            );
+            )->run();
         });
+
+        $data = [
+            'product_name' => 'Apple Iphone6',
+            'category' => 'Electronic',
+            'description' => 'Hugely powerful. Enormously efficient.',
+            'validity' => '2018-08-30',
+            'price' => '950.00',
+            'created_at' => date('Y-m-d H:i:s'),
+            'updated_at' => date('Y-m-d H:i:s')
+        ];
+
+        $this->insert('product', $data);
     }
 
     /**
@@ -52,10 +62,11 @@ class Product
      */
     public function down()
     {
+        $this->delete('product', '1'); // delete last seeded data
         //Roll back your changes done by up method.
-        Schema::make('product', function ($table)
-        {
-            $table->drop();
+        Schema::make($this, function ($table) {
+            $table->tableName = 'product';
+            $table->drop()->run();
         });
     }
 }// End of the Migration
