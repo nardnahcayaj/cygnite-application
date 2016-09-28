@@ -84,6 +84,8 @@ return [
      |
      */
     'activate.event.middleware' => false,
+    
+    'app.event.class' => 'Apps\Middleware\Events\Event',
 
     /*
     |--------------------------------------------------------------------------
@@ -143,7 +145,7 @@ return [
             'uniqueId' => 'CYGNITE_',
 
             'servers' => [
-                'host' => '127.0.0.1', 'port' => 11211, 'weight' => 50
+                ['host' => '127.0.0.1', 'port' => 11211, 'weight' => 50]
             ],
         ],
 
@@ -255,6 +257,42 @@ return [
         ],
 
     ],
+
+    /*
+     * Uses Cartalyst Stripe package
+     *
+     * Add a entry in the composer.json to install and uncomment out
+     * below 'stripe.config' line
+     *
+     * "cartalyst/stripe": "~1.0",
+     *
+     * Stripe Payment gateway API Client
+     */
+    //'stripe.config' => include __DIR__.DS.'stripe'.EXT,
+
+    /*
+     * Uses Omnipay package
+     *
+     * Add a entry in the composer.json to install and uncomment out
+     * below 'omnipay.config' line
+     *
+     * "omnipay/omnipay": "~2.0",
+     *
+     * Payment gateway API client for Multiple Services
+     */
+    //'omnipay.config' => include __DIR__.DS.'omnipay'.EXT,
+
+    /*
+     * Uses PHPoAuthLib package
+     *
+     * Add a entry in the composer.json to install and uncomment out
+     * below 'social.config' line
+     *
+     * "lusitanian/oauth": "~0.3"
+     *
+     * Authenticate using OAuth client through many social API
+     */
+    //'social.config' => include __DIR__.DS.'socialauth'.EXT,
 
     //'params' => include __DIR__.DS.'param'.EXT,
 ];

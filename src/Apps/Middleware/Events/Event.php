@@ -19,14 +19,22 @@ use Cygnite\Base\EventHandler\Event as EventListener;
  */
 class Event extends EventListener
 {
-    /**
+	/**
+	* Initialize the Events
+	*/
+	public function __construct()
+	{
+		parent::boot($this);
+	}
+	
+	/**
      * The event handler mappings for the application.
      * You can add number of event in below array, When ever
      * you try to call/fire specified method before and after event will
      * get executed
      *
      * <code>
-     * 'event.api.run' => '\Apps\Resources\Extensions\Api@run'
+     * 'event.name' => '\Apps\Resources\Extensions\Api@run'
      *
      *  will execute
      *
@@ -37,7 +45,7 @@ class Event extends EventListener
      *  public function afterRun() {}
      *
      *
-     * $this->fire('event.api.run');
+     * $this->fire('event.name');
      * </code>
      *
      * @var array
@@ -47,21 +55,35 @@ class Event extends EventListener
     ];
 
     /**
+     * Activate application event, return true/false
+     *
+     * @return bool
+     */
+    public function isAppEventEnabled()
+    {
+        return false;
+    }
+
+    /**
      * This events will get executed before and after
      * Application::bootApplication() method
      *
-     * @var array
+     * @return array
      */
-    public static $appEvents = [
+    public function registerAppEvents()
+    {
+        return [
         'beforeBootingApplication' => '\Apps\Resources\Extensions\Api@payment',
         'afterBootingApplication' => '\Apps\Resources\Extensions\Api@paymentSuccess'
     ];
+    }
 
-    public static $activateAppEvent = false;
-
-    public function register($app)
+    /**
+     * Fire Registered events or set into container object
+     * @param $container
+     */
+    public function register($container)
     {
-        parent::boot();
-        $app['event.api.run'] = $this->fire('event.api.run');
+        $container['event.api.run'] = $this->fire('event.api.run');
     }
 }
